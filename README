@@ -1,0 +1,34 @@
+----------------------------------------
+TwinBlast - View 2 BLAST reports at once
+----------------------------------------
+
+TwinBlast is a web-based tool for viewing 2 BLAST reports simultaneously
+side-by-side. It uses ExtJS (www.sencha.com/products/extjs/) to provide 2
+independantly scrollable panels. BioPerl (www.bioperl.org) is used to index
+raw BLAST reports and Bio::Graphics is used to draw pictograms of the BLAST
+hits.
+
+
+------------
+Requirements
+------------
+
+TwinBlast uses HTML and Javascript and should work in all modern web-browsers.
+
+Installation of TwinBlast server requires the following packages be installed:
+
+Apache
+ExtJS
+
+Perl Modules:
+
+BioPerl
+CGI
+Tie::File
+File::Basename
+Digest::MD5
+URI::Escape
+JSON
+POSIX
+Bio::Graphics
+
