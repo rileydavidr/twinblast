@@ -31,7 +31,7 @@
         <hr>
 
         <section id="main_content">
-          <hr><h2>TwinBlast - View 2 BLAST reports at once</h2>
+          <h2>TwinBlast - View 2 BLAST reports at once</h2>
 
 <p>TwinBlast is a web-based tool for viewing 2 BLAST reports simultaneously
 side-by-side. It uses ExtJS (<a href="http://www.sencha.com/products/extjs/">www.sencha.com/products/extjs/</a>) to provide 2
@@ -39,26 +39,88 @@ independantly scrollable panels. BioPerl (<a href="http://www.bioperl.org">www.b
 raw BLAST reports and Bio::Graphics is used to draw pictograms of the BLAST
 hits.</p>
 
-<hr><h2>Requirements</h2>
+<h2>Requirements</h2>
 
 <p>TwinBlast uses HTML and Javascript and should work in all modern web-browsers.</p>
 
 <p>Installation of TwinBlast server requires the following packages be installed:</p>
 
-<p>Apache
-ExtJS</p>
+<ul>
+<li>Apache</li>
+<li>ExtJS</li>
+</ul><p>Perl Modules:  </p>
 
-<p>Perl Modules:</p>
+<ul>
+<li>BioPerl</li>
+<li>CGI</li>
+<li>Tie::File</li>
+<li>File::Basename</li>
+<li>Digest::MD5</li>
+<li>URI::Escape</li>
+<li>JSON</li>
+<li>POSIX</li>
+<li>Bio::Graphics</li>
+</ul><h2>Installation</h2>
 
-<p>BioPerl
-CGI
-Tie::File
-File::Basename
-Digest::MD5
-URI::Escape
-JSON
-POSIX
-Bio::Graphics</p>
+<ol>
+<li>
+<p>Download and unpack the tarball/zip file from the top of the page</p>
+
+<pre><code>tar xzvf rileydavidr-twinblast-&lt;build&gt;.tar.gz`
+</code></pre>
+</li>
+<li>
+<p>Copy the cgi directory to the cgi-bin area of your apache install  </p>
+
+<pre><code>cd rileydavidr-twinblast-build
+cp . -r www/cgi /var/www/cgi-bin/twinblast
+</code></pre>
+</li>
+<li>
+<p>Copy the html directory to the htdocs area of your apache install</p>
+
+<pre><code>cp . -r www/html /var/www/htdocs/twinblast
+</code></pre>
+</li>
+<li>
+<p>Change the following values in /var/www/cgi-bin/twinblast/guiblast to reflect the install location</p>
+
+<div class="highlight"><pre><span class="c1"># Web-accessible directory where image file should be written.</span>
+<span class="k">my</span> <span class="nv">$img_dir</span> <span class="o">=</span> <span class="s">'/var/www/twinblast/images/'</span><span class="p">;</span>
+
+<span class="c1"># URL to web-accessible directory where image files are written.</span>
+<span class="k">my</span> <span class="nv">$img_url</span> <span class="o">=</span> <span class="s">'/twinblast/images/'</span><span class="p">;</span>
+
+<span class="c1"># Place where blast indexes should be written.</span>
+<span class="k">my</span> <span class="nv">$idx_dir</span> <span class="o">=</span> <span class="s">'/var/www/twinblast/indexes/'</span><span class="p">;</span>
+
+<span class="c1"># Required prefix for all files</span>
+<span class="k">my</span> <span class="nv">$prefix</span> <span class="o">=</span> <span class="s">'/var/www/twinblast/files/'</span><span class="p">;</span>
+</pre></div>
+</li>
+<li>
+<p>Change the following values in /var/www/htdocs/twinblast/twinblast.js</p>
+
+<div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">onReady</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+
+    <span class="c1">// URL to the guiblast binary</span>
+    <span class="kd">var</span> <span class="nx">GUIBLAST_URL</span> <span class="o">=</span> <span class="s1">'/cgi-bin/twinblast_test/guiblast_open'</span><span class="p">;</span>
+
+</pre></div>
+</li>
+<li>
+<p>Update the location of the extjs javascript and css files in twinblast.html</p>
+
+<div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/ext-4.1.1a/ext-all-debug.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"twinblast.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="c">&lt;!-- Include Ext stylesheets here: --&gt;</span>
+
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">type=</span><span class="s">"text/css"</span> <span class="na">href=</span><span class="s">"/ext-4.1.1a/resources/css/ext-all.css"</span><span class="nt">&gt;</span>
+
+</pre></div>
+</li>
+<li><p>Now you should be able to load blast reports into the interface using the form at the top.</p></li>
+</ol>
         </section>
 
         <footer>
