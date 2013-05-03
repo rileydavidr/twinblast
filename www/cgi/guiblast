@@ -47,17 +47,17 @@ my $skip_text_alignments = 0;
 my $max_hits = 20;
 my $max_hsps = 20;
 
-# Web-accessible directory where image file should be written.
-my $img_dir = '/var/www/twinblast/images/';
+# Root of the web site (usually htdocs or html)
+my $www_root = '/export/software/apache/htdocs/';
 
-# URL to web-accessible directory where image files are written.
-my $img_url = '/twinblast/images/';
+# URL to web-accessible directory where image files are written. (Basically where in www_root are the images)
+my $img_url = '/twinblast_git/images/';
 
 # Place where blast indexes should be written.
-my $idx_dir = '/var/www/twinblast/indexes/';
+my $idx_dir = '/export/software/apache/htdocs/twinblast_git/indexes/';
 
 # Required prefix for all files
-my $prefix = '/var/www/twinblast/files/';
+my $prefix = '/export/software/apache/htdocs/twinblast_git/files/';
 
 #my $idx_dir = '/tmp/';
 
@@ -72,6 +72,8 @@ my $index;
 # Deal with a single blast file here
 if($file) {
     $file = "$prefix/$file";
+    # Little safety precaution here.
+    $file =~ s/\.\.//g;
     $file =~ s/\/\//\//g;
     $fname = basename($file);
     $md5 = md5_hex($file);
@@ -80,6 +82,8 @@ if($file) {
 # Deal with a bunch of blast files here
 if($list) {
     $list = "$prefix/$list";
+    # Little safety precaution here.
+    $list =~ s/\.\.//g;
     $list =~ s/\/\//\//g;
     $fname = basename($list);
     $md5 = md5_hex($list);
@@ -89,22 +93,22 @@ if($list) {
 
 # If someone passes their own list file in we'll deal with it here. Need to move this
 # somewhere else
-if($qlist) {
-    $qlist = "$prefix/$qlist";
-    $qlist =~ s/\/\//\//g;
-    my @querys;
-    tie @querys, 'Tie::File', $qlist;
-    my $total = scalar @querys;
-    print "Content-type: text/plain\n\n";
-    print "{total: $total,\nroot: [\n";
-    map {
-        if($_) {
-        print to_json({'name' => $_}).",\n";
-        }
-    } @querys[$start..$start+$limit];
-    print "]}";
-    exit;
-}
+#if($qlist) {
+#    $qlist = "$prefix/$qlist";
+#    $qlist =~ s/\/\//\//g;
+#    my @querys;
+#    tie @querys, 'Tie::File', $qlist;
+#    my $total = scalar @querys;
+#    print "Content-type: text/plain\n\n";
+#    print "{total: $total,\nroot: [\n";
+#    map {
+#        if($_) {
+#        print to_json({'name' => $_}).",\n";
+#        }
+#    } @querys[$start..$start+$limit];
+#    print "]}";
+#    exit;
+#}
 
 
 
@@ -250,14 +254,14 @@ while (my $hit = $result->next_hit) {
 my ($url,$map,$mapname);
 
    if($skip_text_alignments) {
-       ($url,$map,$mapname) = $panel->image_and_map(-root => $img_dir,
+       ($url,$map,$mapname) = $panel->image_and_map(-root => $www_root,
                          -url => $img_url,
                          -link => 'http://ncbi.nlm.nih.gov/nuccore?term=$name',
                          -mapname => "$id");
 
     }
     else {
-        ($url,$map,$mapname) = $panel->image_and_map(-root => $img_dir,
+        ($url,$map,$mapname) = $panel->image_and_map(-root => $www_root,
                          -url => $img_url,
                          -link => '#$name',
 #                         -onclick => "Ext.get('$name').scrollIntoView()",
@@ -345,10 +349,12 @@ sub get_input_list {
         open IN, "<$list" or die;
         while(<IN>) {
             chomp;
+            s/\.\.//g;
             push(@$files, $_);
         }
     }
     else {
+        $files =~ s/\.\.//g;
         $files = [$file];
     }
     return $files;

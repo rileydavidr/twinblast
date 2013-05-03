@@ -1,5 +1,6 @@
 Ext.onReady(function(){
 
+    var GUIBLAST_URL = '/cgi-bin/twinblast_git/guiblast';
 
     // Pull out what's in the URL
     var vars = getUrlVars();
@@ -18,7 +19,7 @@ Ext.onReady(function(){
 
     //If we have an ID and a file we'll start with the form collapsed
     var collapse_form = false;
-    var single_file = false;
+    var single_file = true;
 
     var runner = new Ext.util.TaskRunner();
     var checkStatusTask = runner.newTask({
@@ -171,8 +172,8 @@ Ext.onReady(function(){
              title: 'BLAST lists',
              items: [
                  type_radiogroup,
-                 single_list_form,
-                 double_list_form]
+                 single_list_form]
+                 //double_list_form]
            }]
     }));
     
@@ -214,7 +215,7 @@ Ext.onReady(function(){
         pageSize: 500,
         proxy: {
             type: 'ajax',
-            url: '/cgi-bin/twinblast_test/guiblast_open',
+            url: GUIBLAST_URL,
             actionMethods: {
                 read: 'POST'
             },
@@ -294,6 +295,7 @@ Ext.onReady(function(){
     function reloadPanels(newvals) {
         var vals = form.getValues();
         Ext.apply(vals,newvals);
+        console.log(vals);
 /*        if(vals.qlist) {
             Ext.Ajax.request({
                 url: '/cgi-bin/guiblast',
@@ -381,7 +383,7 @@ Ext.onReady(function(){
     }
     function checkStatus(config) {
         Ext.Ajax.request({
-            url: '/cgi-bin/twinblast_test/guiblast_open',
+            url: GUIBLAST_URL,
             params: config,
             success: function(response) {
                 var res = Ext.JSON.decode(response.responseText,true);
@@ -409,7 +411,7 @@ Ext.onReady(function(){
             panel.setLoading({msg: 'Patience my friend...'});
         }
         Ext.Ajax.request({
-            url: '/cgi-bin/twinblast_test/guiblast_open',
+            url: GUIBLAST_URL,
             params: config,
             success: function(response) {
                 var res = Ext.JSON.decode(response.responseText,true);
@@ -417,6 +419,7 @@ Ext.onReady(function(){
                     panel.setLoading(false);
                     vp.setLoading(res.message);
                     setPanelsLoading(false);
+                    config.printlist =0;
                     checkStatusTask.args = [config];
                     checkStatusTask.start();
                 }
