@@ -89,8 +89,8 @@ cp . -r www/cgi /var/www/cgi-bin/twinblast
 <li>
 <p>Change the following values in /var/www/cgi-bin/twinblast/guiblast to reflect the install location</p>
 
-<div class="highlight"><pre><span class="c1"># Web-accessible directory where image file should be written.</span>
-<span class="k">my</span> <span class="nv">$img_dir</span> <span class="o">=</span> <span class="s">'/var/www/twinblast/images/'</span><span class="p">;</span>
+<div class="highlight"><pre><span class="c1"># Root of the web site (usually htdocs or html)</span>
+<span class="k">my</span> <span class="nv">$www_root</span> <span class="o">=</span> <span class="s">'/var/www/'</span><span class="p">;</span>
 
 <span class="c1"># URL to web-accessible directory where image files are written.</span>
 <span class="k">my</span> <span class="nv">$img_url</span> <span class="o">=</span> <span class="s">'/twinblast/images/'</span><span class="p">;</span>
