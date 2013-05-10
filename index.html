@@ -124,6 +124,32 @@ cp . -r www/cgi /var/www/cgi-bin/twinblast
 </pre></div>
 </li>
 <li><p>Now you should be able to load blast reports into the interface using the form at the top.</p></li>
+
+<li>
+<p>To use the sample data, download <a href="http://lgt.igs.umaryland.edu/twinblast_mauritiana.tgz">the tarball</a> and place 
+it in the directory you specified as the prefix in step 4 (/var/www/twinblast/files/). Then unpack the tarball</p>
+
+<pre><code>cp ~/Downloads/twinblast_mauritiana.tgz /var/www/twinblast/files/
+cd /var/www/twinblast/files/
+tar xzvf twinblast_mauritiana.tgz
+</code></pre>
+</li>
+<li><p>Now load the twinblast web form by entering in the ip address or hostname of your webserver with the url 
+of the twinblast.html file (i.e. 192.168.100.1/twinblast/twinblast.html) </p>
+<p>When the page loads copy and paste the path to your blast output file into the 'Blast File' box 
+(/var/www/twinblast/files/twinblast_mauritiana/SRX135546_UM_all_uniq_filtered.out)</p>
+
+<p>Now change the 'Left ID Suffix' and 'Right ID Suffix' to /1 and /2 respectively. These characters have
+  been added to the read names to distinguish between read 1 and read 2.
+</p>
+
+<p>Next, copy and paste the path to the list of id's into the 'List of queries' box 
+  (/var/www/twinblast/files/twinblast_mauritiana/mauritiana_ids.txt)
+</p>
+
+<p>Now click the reload button and wait for your results to be indexed.</p>
+</li>
+
 </ol>
         </section>
 
